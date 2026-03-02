@@ -1,4 +1,4 @@
-# Roomify – AI-Powered Interior Visualization
+# Raumorph – AI-Powered Interior Visualization
 
 A modern web application that allows users to upload 2D floor plans and generate photorealistic 3D room renders. This project demonstrates a fully interactive UI, reusable components, and integration with backend services.
 
