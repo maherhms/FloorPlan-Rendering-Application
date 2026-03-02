@@ -15,13 +15,11 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
     const navigate = useNavigate();
 
-    const handleUploadComplete = async (base64Image: string) => {
-        const newId = Date.now().toString();
-
+    const handleUploadComplete = (base64Image: string) => {
+        const newId = crypto.randomUUID();
+        sessionStorage.setItem(`upload:${newId}`, base64Image);
         navigate(`/visualizer/${newId}`);
-
-        return true;
-    }
+    };
 
   return (
       <div className="home">
@@ -94,7 +92,7 @@ export default function Home() {
 
                                 <div className="meta">
                                     <Clock size={12}/>
-                                    <span>{new Date('01.01.2027').toLocaleDateString()}</span>
+                                    <span>{new Date('2027-01-01').toLocaleDateString()}</span>
                                     <span>By Maher Salah</span>
                                 </div>
                             </div>

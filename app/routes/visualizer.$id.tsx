@@ -1,7 +1,7 @@
 const VisualizerId = () => {
     return (
         <div>
-            
+
         </div>
     );
 };

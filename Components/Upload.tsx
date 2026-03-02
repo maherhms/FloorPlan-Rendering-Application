@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useOutletContext} from "react-router";
 import {CheckCircle2, ImageIcon, UploadIcon} from "lucide-react";
 import {PROGRESS_INTERVAL_MS, PROGRESS_STEP, REDIRECT_DELAY_MS} from "../lib/constants";
@@ -11,25 +11,52 @@ const Upload = ({onComplete}: UploadProps) => {
     const [file, setFile] = useState<File | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [progress, setProgress] = useState(0);
+    const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const isMounted = useRef(true);
 
     const {isSignedIn} = useOutletContext<AuthContext>();
 
+    useEffect(() => {
+        isMounted.current = true;
+        return () => {
+            isMounted.current = false;
+            if (intervalRef.current) clearInterval(intervalRef.current);
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        };
+    }, []);
+
+    const MAX_UPLOAD_BYTES = 50 * 1024 * 1024;
+    const ALLOWED_TYPES = new Set(["image/jpeg", "image/png"]);
+
     const processFile = (file: File) => {
         if (!isSignedIn) return;
+        if (!ALLOWED_TYPES.has(file.type)) return;
+        if (file.size > MAX_UPLOAD_BYTES) return;
+
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+        setProgress(0);
         setFile(file);
 
         const reader = new FileReader();
         reader.readAsDataURL(file);
 
         reader.onload = (e) => {
+            if (!isMounted.current) return;
             const base64 = e.target?.result as string;
-            const interval = setInterval(() => {
+            intervalRef.current = setInterval(() => {
+                if (!isMounted.current) {
+                    if (intervalRef.current) clearInterval(intervalRef.current);
+                    return;
+                }
                 setProgress((prev) => {
                     const nextProgress = prev + PROGRESS_STEP;
                     if (nextProgress >= 100) {
-                        clearInterval(interval);
-                        setTimeout(() => {
-                            if (onComplete) onComplete(base64);
+                        if (intervalRef.current) clearInterval(intervalRef.current);
+                        timeoutRef.current = setTimeout(() => {
+                            if (isMounted.current && onComplete) onComplete(base64);
                         }, REDIRECT_DELAY_MS);
                         return 100;
                     }
