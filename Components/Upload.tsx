@@ -11,13 +11,19 @@ const Upload = ({onComplete}: UploadProps) => {
     const [file, setFile] = useState<File | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [progress, setProgress] = useState(0);
-    const intervalRef = useRef<NodeJS.Timeout | null>(null);
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const readerRef = useRef<FileReader | null>(null);
+    const isMountedRef = useRef(true);
 
     const {isSignedIn} = useOutletContext<AuthContext>();
 
     useEffect(() => {
         return () => {
+            isMountedRef.current = false;
+            if (readerRef.current && readerRef.current.readyState === FileReader.LOADING) {
+                readerRef.current.abort();
+                }
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
                 }
@@ -46,14 +52,17 @@ const Upload = ({onComplete}: UploadProps) => {
         setFile(file);
 
         const reader = new FileReader();
+        readerRef.current = reader;
         reader.readAsDataURL(file);
 
         reader.onerror = () => {
+            if (!isMountedRef.current) return;
             alert('Failed to read file. Please try again.');
             setFile(null);
         };
 
         reader.onload = (e) => {
+            if (!isMountedRef.current) return;
             const base64 = e.target?.result as string;
             intervalRef.current = setInterval(() => {
                 setProgress((prev) => {

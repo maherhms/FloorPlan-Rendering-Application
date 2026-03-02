@@ -6,11 +6,21 @@ A modern web application that allows users to upload 2D floor plans and generate
 
 ---
 
+## Update log 0.5.6
+### New Features
+Drag-and-drop and click-to-upload interface for floor plan images (JPG/PNG, 10 MB) with upload progress and completion flow
+New visualizer view to process/display uploaded floor plans via a navigation-based upload flow
+### Updates
+App rebranded from "Roomify" to "Raumorph" (UI and README)
+### Chores
+Added application-wide constants for timing, UI, and rendering settings
+
+---
+
 ## 🔗 Live Demo
 
 <!-- Optional: Add if you deploy it somewhere -->
-[Live Demo](#)
-coming!
+[Live Demo](#) coming!
 ---
 
 ## 🛠 Tech Stack
