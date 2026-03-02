@@ -28,6 +28,13 @@ const Upload = ({onComplete}: UploadProps) => {
 
     const processFile = (file: File) => {
         if (!isSignedIn) return;
+
+        const allowedTypes = ['image/jpeg', 'image/png'];
+        if (!allowedTypes.includes(file.type)) {
+            alert('Please upload a JPG or PNG image');
+            return;
+        }
+
         if (file.size > MAX_FILE_SIZE_BYTES) {
             alert(`File size exceeds ${MAX_FILE_SIZE_MB}MB limit`);
             return;
@@ -38,7 +45,7 @@ const Upload = ({onComplete}: UploadProps) => {
         reader.readAsDataURL(file);
 
         reader.onerror = () => {
-            console.error('Failed to read file');
+            alert('Failed to read file. Please try again.');
             setFile(null);
         };
 
