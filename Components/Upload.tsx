@@ -12,6 +12,7 @@ const Upload = ({onComplete}: UploadProps) => {
     const [isDragging, setIsDragging] = useState(false);
     const [progress, setProgress] = useState(0);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const {isSignedIn} = useOutletContext<AuthContext>();
 
@@ -19,6 +20,9 @@ const Upload = ({onComplete}: UploadProps) => {
         return () => {
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
+                }
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
                 }
             };
         }, []);
@@ -57,7 +61,7 @@ const Upload = ({onComplete}: UploadProps) => {
                     if (nextProgress >= 100) {
                         clearInterval(intervalRef.current!);
                         intervalRef.current = null;
-                        setTimeout(() => {
+                        timeoutRef.current = setTimeout(() => {
                             if (onComplete) onComplete(base64);
                         }, REDIRECT_DELAY_MS);
                         return 100;
