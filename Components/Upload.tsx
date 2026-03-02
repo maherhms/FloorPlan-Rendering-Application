@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useOutletContext} from "react-router";
 import {CheckCircle2, ImageIcon, UploadIcon} from "lucide-react";
 import {PROGRESS_INTERVAL_MS, PROGRESS_STEP, REDIRECT_DELAY_MS} from "../lib/constants";
@@ -11,23 +11,45 @@ const Upload = ({onComplete}: UploadProps) => {
     const [file, setFile] = useState<File | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [progress, setProgress] = useState(0);
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     const {isSignedIn} = useOutletContext<AuthContext>();
 
+    useEffect(() => {
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                }
+            };
+        }, []);
+
+    const MAX_FILE_SIZE_MB = 10;
+    const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
     const processFile = (file: File) => {
         if (!isSignedIn) return;
+        if (file.size > MAX_FILE_SIZE_BYTES) {
+            alert(`File size exceeds ${MAX_FILE_SIZE_MB}MB limit`);
+            return;
+        }
         setFile(file);
 
         const reader = new FileReader();
         reader.readAsDataURL(file);
 
+        reader.onerror = () => {
+            console.error('Failed to read file');
+            setFile(null);
+        };
+
         reader.onload = (e) => {
             const base64 = e.target?.result as string;
-            const interval = setInterval(() => {
+            intervalRef.current = setInterval(() => {
                 setProgress((prev) => {
                     const nextProgress = prev + PROGRESS_STEP;
                     if (nextProgress >= 100) {
-                        clearInterval(interval);
+                        clearInterval(intervalRef.current!);
+                        intervalRef.current = null;
                         setTimeout(() => {
                             if (onComplete) onComplete(base64);
                         }, REDIRECT_DELAY_MS);
@@ -91,7 +113,7 @@ const Upload = ({onComplete}: UploadProps) => {
                         ):(
                             "Sign in or Sign up with Puter to upload"
                         )}</p>
-                        <p className="help">Maximum file size 50 MB.</p>
+                        <p className="help">Maximum file size 10 MB.</p>
                     </div>
                 </div>
             ):(
