@@ -64,6 +64,7 @@ export default function Home() {
                     </div>
 
                     <Upload onComplete={handleUploadComplete}/>
+                    <p>Upload Images</p>
                 </div>
             </div>
         </section>
