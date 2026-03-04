@@ -31,6 +31,9 @@ Added application-wide constants for timing, UI, and rendering settings
 - **Styling & Components:** Reusable component architecture, responsive design
 
 ---
+## ⚡ Key Functionalities
+
+![functionality diagram.jpeg](public/functionality%20diagram.jpeg)
 
 ## ⚡ Key Features
 
