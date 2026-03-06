@@ -37,6 +37,11 @@ const VisualizerId = () => {
     }
 
     useEffect(() => {
+        hasInitialGenerated.current = false;
+        setCurrentImage(initialRender || null);
+    }, [initialImage, initialRender]);
+
+    useEffect(() => {
         if(!initialImage || hasInitialGenerated.current) return;
 
         if(initialRender){
