@@ -6,13 +6,22 @@ A modern web application that allows users to upload 2D floor plans and generate
 
 ---
 
+## Update log 0.6.3
+### New Features
+
+Image hosting and upload with automatic hosting setup, multi-format handling, and PNG rendering for certain images.
+Save projects from uploads; Home displays saved projects with dynamic timestamps and thumbnails.
+Visualizer accepts routed project state and shows project title and source image.
+Expanded public types/interfaces for components and hosting APIs.
+### Updates
+Added Key "Functionalities" section to README.
+Package version updates for routing libraries.
+
 ## Update log 0.5.6
 ### New Features
 Drag-and-drop and click-to-upload interface for floor plan images (JPG/PNG, 10 MB) with upload progress and completion flow
 New visualizer view to process/display uploaded floor plans via a navigation-based upload flow
 ### Updates
-App rebranded from "Roomify" to "Raumorph" (UI and README)
-### Chores
 Added application-wide constants for timing, UI, and rendering settings
 
 ---
@@ -65,8 +74,8 @@ src/
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/roomify.git
-cd roomify
+git clone https://github.com/maherhms/FloorPlan-Rendering-Application.git
+cd FloorPlan-Rendering-Application
 ```
 
 2. Install dependencies:
@@ -84,9 +93,6 @@ npm run dev
 # or
 yarn dev
 ```
-
-4. Open [http://localhost:3000](http://localhost:3000) to view the app in your browser.
-
 ---
 
 ## 📌 References
