@@ -41,7 +41,7 @@ export default function Home() {
                 return false;
             }
 
-            setProjects((prev) => [newItem, ...prev]);
+            setProjects((prev) => [saved, ...prev]);
 
             // Store the image data for the visualizer to retrieve
             sessionStorage.setItem(`floorplan-${newId}`, base64Image);
