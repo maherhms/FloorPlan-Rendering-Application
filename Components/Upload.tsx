@@ -120,7 +120,7 @@ const Upload = ({onComplete}: UploadProps) => {
                      onDrop={handleDrop}>
                     <input type="file"
                            className="drop-input"
-                           accept=".jpg,.jpeg,.png"
+                           accept=".jpg,.jpeg,.png,.webp"
                            onChange={handleFileChange}
                            disabled={!isSignedIn} />
 
