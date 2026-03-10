@@ -138,8 +138,8 @@ const VisualizerId = () => {
                                    maxLength={20}
                                    className="input-name"
                                    placeholder="Enter project name"
-                                   disabled={isProcessing}>
-                            </input>
+                                   disabled={isProcessing}
+                            />
                             <p className="note">Created by you</p>
                         </div>
 

@@ -83,7 +83,7 @@ export const createProject = async ({ item , visibility = "private"}: CreateProj
 
         return data?.project ?? null;
     }catch(e){
-        toast.info(`Failed to save the project: ${e}`);
+        toast.error(`Failed to save the project: ${e}`);
         return null;
     }
 }
@@ -114,8 +114,6 @@ export const getProjectById = async ({ id }: { id: string }) => {
         return null;
     }
 
-    toast.info(`Fetching project with ID:${id}`);
-
     try {
         const response = await puter.workers.exec(
             `${PUTER_WORKER_URL}/api/projects/get?id=${encodeURIComponent(id)}`,
@@ -143,6 +141,15 @@ export const getProjectById = async ({ id }: { id: string }) => {
 };
 
 export const renameProjectById = async ( newName = "untitled", {project} : {project : DesignItem | null}) => {
+    if (!PUTER_WORKER_URL) {
+        toast.warn("Missing VITE_PUTER_WORKER_URL; skipping rename.");
+        return null;
+    }
+    if (!project) {
+        toast.warn("No project to rename.");
+        return null;
+    }
+
     try {
         const response = await puter.workers.exec(`${PUTER_WORKER_URL}/api/projects/save`, {
             method: "POST",
