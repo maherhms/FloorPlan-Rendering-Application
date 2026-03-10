@@ -2,9 +2,17 @@
 
 A modern web application that allows users to upload 2D floor plans and generate photorealistic 3D room renders. This project demonstrates a fully interactive UI, reusable components, and integration with backend services.
 
-![Project Screenshot](./screenshot.png) coming! <!-- Replace with your own screenshot -->
+<p align="center">
+  <img src="public/Screenshot 2026-03-10 122317.png" width="45%" />
+  <img src="public/Screenshot 2026-03-10 122339.png" width="45%" />
+</p>
 
 ---
+## Update log 0.8
+### New Features
+WebP file format now supported for uploads
+Added image comparison panel with interactive slider to visually compare original and rendered images side-by-side
+Export rendered images as PNG files for download
 
 ## Update log 0.7.3
 ### New Features
@@ -45,7 +53,7 @@ Added application-wide constants for timing, UI, and rendering settings
 ## 🛠 Tech Stack
 
 - **Frontend:** React, TypeScript, Tailwind CSS
-- **Backend / API:** Serverless functions, AI image processing
+- **Backend / API:** Serverless functions, AI image processing , PuterJs
 - **State Management:** React Hooks, Context API
 - **Styling & Components:** Reusable component architecture, responsive design
 
@@ -91,26 +99,12 @@ sequenceDiagram
 
 ## ⚡ Key Features
 
-- Upload 2D floor plans and generate AI-based 3D renders
+- Upload 2D floor plans and generate AI-based 3D floor renders with Gemini
 - Responsive user interface with Tailwind CSS
 - Reusable components with type-safe props (TypeScript)
 - User authentication and session management
 - Interactive before/after image comparisons
 - Project gallery and download functionality
-
----
-
-## 📁 Project Structure
-
-```
-src/
-├─ components/           # Reusable UI components (buttons, modals, cards)
-├─ context/              # Authentication and global state
-├─ hooks/                # Custom React hooks
-├─ pages/                # Route components (Dashboard, Upload, Gallery)
-├─ services/             # API and backend integrations
-└─ styles/               # Tailwind and custom styles
-```
 
 ---
 
