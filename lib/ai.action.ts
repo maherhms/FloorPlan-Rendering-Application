@@ -50,8 +50,7 @@ export const generate3DView = async ({sourceImage} : Generate3DViewParams) => {
     }
 
     const response = await puter.ai.txt2img(RAUMORPH_RENDER_PROMPT,{
-        provider:"gemini",
-        model:"gemini-2.5-flash-image-preview",
+        model: "black-forest-labs/flux.2-klein-9b",
         input_image: base64Data,
         input_image_mime_type: mimeType,
         ratio : {w: 1024, h: 1024},

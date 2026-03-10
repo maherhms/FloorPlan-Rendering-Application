@@ -21,6 +21,11 @@ export default function Home() {
     const [projects , setProjects] = useState<DesignItem[]>([]);
     const isCreatingProjectRef = useRef(false);
 
+    //slider animation values
+    const [sliderPos, setSliderPos] = useState(50);
+    const animFrameRef = useRef<number>(50);
+    const startTimeRef = useRef<number>(50);
+
     const handleUploadComplete = async (base64Image: string) => {
         try {
             if(isCreatingProjectRef.current) return;
@@ -69,6 +74,21 @@ export default function Home() {
             setProjects(items);
         }
         fetchProjects();
+    }, []);
+
+    useEffect(() => {
+        const animate = (timestamp: number) => {
+            if (!startTimeRef.current) startTimeRef.current = timestamp;
+            const elapsed = (timestamp - startTimeRef.current) / 1000;
+            // Oscillate between 20 and 80
+            const pos = 50 + 8 * Math.sin(elapsed * 1.2);
+            setSliderPos(pos);
+            animFrameRef.current = requestAnimationFrame(animate);
+        };
+        animFrameRef.current = requestAnimationFrame(animate);
+        return () => {
+            if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+        };
     }, []);
 
     return (
@@ -128,20 +148,14 @@ export default function Home() {
                     <div className="projects-grid">
                         {projects.map(({id , name , renderedImage , sourceImage , timestamp}) => (
                             <div key={id} className="project-card group" onClick={() => navigate(`/visualizer/${id}`)}>
-                                <div className="preview">
-                                    <ReactCompareSlider disabled={true} handle={<></>}
-                                        defaultValue={50}
-                                        style={{ width: '100%', height: 'auto' }}
+                                <div >
+                                    <ReactCompareSlider disabled={true} handle={<></>} style={{ width: '100%', height: 'auto' }} position={sliderPos}
                                         itemOne={
                                             <ReactCompareSliderImage src={sourceImage} alt="before" className="compare-img"/>
                                         }
                                         itemTwo={
                                             <ReactCompareSliderImage src={renderedImage || sourceImage || ""} alt="after" className="compare-img"/>
                                         } />
-
-                                    <div className="Badge">
-                                        <span>Community</span>
-                                    </div>
                                 </div>
 
                                 <div className="card-body">

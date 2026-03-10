@@ -59,7 +59,7 @@ const VisualizerId = () => {
             }
         }
         catch (e) {
-            toast.error(`Failed to generate image: ${id}`);
+            toast.error(`Failed to generate image`);
         }
         finally {
             setIsProcessing(false);
