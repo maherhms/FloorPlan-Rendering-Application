@@ -134,7 +134,8 @@ const VisualizerId = () => {
                             <p>Project</p>
                             <input value={name}
                                    onChange={(e) => setName(e.target.value)}
-                                   onBlur={() => renameProjectById(name , {project})}
+                                   onBlur={async () => { if (project && name !== project.name) {
+                                           await renameProjectById(name, {project});}}}
                                    maxLength={20}
                                    className="input-name"
                                    placeholder="Enter project name"
@@ -190,12 +191,9 @@ const VisualizerId = () => {
                             <ReactCompareSlider
                                 defaultValue={50}
                                 style={{ width: '100%', height: 'auto' }}
-                                itemOne={
-                                    <ReactCompareSliderImage src={project?.sourceImage} alt="before" className="compare-img"/>
-                                }
-                                itemTwo={
-                                    <ReactCompareSliderImage src={currentImage || project?.renderedImage || ""} alt="after" className="compare-img"/>
-                                } />
+                                itemOne={<ReactCompareSliderImage src={project?.sourceImage} alt="before" className="compare-img"/>}
+                                itemTwo={<ReactCompareSliderImage src={currentImage || project?.renderedImage || ""} alt="after" className="compare-img"/>}
+                            />
                         ) : (
                             <div className="compare-fallback">
                                 {project?.sourceImage && (

@@ -7,6 +7,7 @@ import {useNavigate} from "react-router";
 import {useEffect, useRef, useState} from "react";
 import {createProject, getProjects} from "../../lib/puter.action";
 import {toast} from "react-toastify";
+import {ReactCompareSlider, ReactCompareSliderImage} from "react-compare-slider";
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -128,8 +129,15 @@ export default function Home() {
                         {projects.map(({id , name , renderedImage , sourceImage , timestamp}) => (
                             <div key={id} className="project-card group" onClick={() => navigate(`/visualizer/${id}`)}>
                                 <div className="preview">
-                                    <img src={renderedImage || sourceImage}
-                                         alt="Project"/>
+                                    <ReactCompareSlider disabled={true} handle={<></>}
+                                        defaultValue={50}
+                                        style={{ width: '100%', height: 'auto' }}
+                                        itemOne={
+                                            <ReactCompareSliderImage src={sourceImage} alt="before" className="compare-img"/>
+                                        }
+                                        itemTwo={
+                                            <ReactCompareSliderImage src={renderedImage || sourceImage || ""} alt="after" className="compare-img"/>
+                                        } />
 
                                     <div className="Badge">
                                         <span>Community</span>
