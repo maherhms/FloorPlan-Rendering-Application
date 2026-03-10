@@ -140,3 +140,25 @@ export const getProjectById = async ({ id }: { id: string }) => {
         return null;
     }
 };
+
+export const renameProjectById = async ( newName = "untitled", {project} : {project : DesignItem | null}) => {
+    try {
+        const response = await puter.workers.exec(`${PUTER_WORKER_URL}/api/projects/save`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({project: {...project, name: newName}}),
+        });
+
+        if(!response.ok){
+            console.error(`Failed to save the project`, await response.text());
+            return null;
+        }
+
+        const data = (await response.json()) as { project ?: DesignItem | null};
+
+        return data?.project ?? null;
+    }catch (error){
+        console.error(`Failed to rename the project: ${error}`);
+        return null;
+    }
+}

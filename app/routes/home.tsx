@@ -142,7 +142,7 @@ export default function Home() {
                                         <div className="meta">
                                             <Clock size={12}/>
                                             <span>{new Date(timestamp).toLocaleDateString()}</span>
-                                            <span>By Maher Salah</span>
+                                            <span>By you</span>
                                         </div>
                                     </div>
 

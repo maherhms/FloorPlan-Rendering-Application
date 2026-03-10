@@ -3,7 +3,7 @@ import {useEffect, useRef, useState} from "react";
 import {generate3DView} from "../../lib/ai.action";
 import {Box, Download, RefreshCcw, Share2, X} from "lucide-react";
 import Button from "../../Components/ui/Button";
-import {createProject, getProjectById} from "../../lib/puter.action";
+import {createProject, getProjectById, renameProjectById} from "../../lib/puter.action";
 import {ReactCompareSlider, ReactCompareSliderImage} from "react-compare-slider";
 
 const VisualizerId = () => {
@@ -14,6 +14,7 @@ const VisualizerId = () => {
     const hasInitialGenerated = useRef(false);
 
     const [project, setProject] = useState<DesignItem | null>(null);
+    const [name, setName] = useState<string>("untitled");
     const [isProjectLoading, setIsProjectLoading] = useState(true);
     const [isProcessing, setIsProcessing] = useState(false);
     const [currentImage, setCurrentImage] = useState<string | null>(null);
@@ -110,6 +111,10 @@ const VisualizerId = () => {
         void runGeneration(project);
     }, [project, isProjectLoading]);
 
+    useEffect(() => {
+        if(project?.name) setName(project.name);
+    }, [project?.name]);
+
     return (
         <div className="visualizer">
             <nav className="topbar">
@@ -126,7 +131,14 @@ const VisualizerId = () => {
                     <div className="panel-header">
                         <div className="panel-meta">
                             <p>Project</p>
-                            <h2>{project?.name || `Residence ${id}`}</h2>
+                            <input value={name}
+                                   onChange={(e) => setName(e.target.value)}
+                                   onBlur={() => renameProjectById(name , {project})}
+                                   maxLength={20}
+                                   className="input-name"
+                                   placeholder="Enter project name"
+                                   disabled={isProcessing}>
+                            </input>
                             <p className="note">Created by you</p>
                         </div>
 
