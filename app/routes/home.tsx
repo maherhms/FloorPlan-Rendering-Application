@@ -6,6 +6,7 @@ import Upload from "../../Components/Upload";
 import {useNavigate} from "react-router";
 import {useEffect, useRef, useState} from "react";
 import {createProject, getProjects} from "../../lib/puter.action";
+import {toast} from "react-toastify";
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -37,7 +38,7 @@ export default function Home() {
             const saved = await createProject({item : newItem, visibility: "private"});
 
             if(!saved){
-                console.error("Failed to create project");
+                toast.error("Failed to create project");
                 return false;
             }
 

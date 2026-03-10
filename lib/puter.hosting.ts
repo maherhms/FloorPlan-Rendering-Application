@@ -7,6 +7,7 @@ import {
     isHostedUrl
 } from "./utils";
 import puter from "@heyputer/puter.js";
+import {toast} from "react-toastify";
 
 /**
  * Retrieves the hosting config (subdomain) from Puter KV store,
@@ -30,7 +31,7 @@ export const getOrCreateHostingConfig = async () : Promise<HostingConfig | null>
          return record;
 
     }catch (e){
-        console.warn(`could not find subdomain: ${e}`);
+        toast.warn(`could not find subdomain: ${e}`);
         return null;
     }
 };
@@ -69,7 +70,7 @@ export const uploadImageToHosting = async ({hosting , url , projectId , label} :
 
         return hostedUrl ? {url: hostedUrl} : null;
     }catch(e){
-        console.warn(`Failed to store the hosted image: ${e}`);
+        toast.warn(`Failed to store the hosted image: ${e}`);
         return null;
     }
 }

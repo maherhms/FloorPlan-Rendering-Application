@@ -5,6 +5,7 @@ import {Box, Download, RefreshCcw, Share2, X} from "lucide-react";
 import Button from "../../Components/ui/Button";
 import {createProject, getProjectById, renameProjectById} from "../../lib/puter.action";
 import {ReactCompareSlider, ReactCompareSliderImage} from "react-compare-slider";
+import {toast} from "react-toastify";
 
 const VisualizerId = () => {
     const { id } = useParams();
@@ -58,7 +59,7 @@ const VisualizerId = () => {
             }
         }
         catch (e) {
-            console.error("Failed to generate image", e);
+            toast.error(`Failed to generate image: ${id}`);
         }
         finally {
             setIsProcessing(false);

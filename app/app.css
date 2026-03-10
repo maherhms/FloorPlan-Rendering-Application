@@ -596,4 +596,23 @@
       @apply text-sm text-zinc-500;
     }
   }
+
+  /* Prevent global styles from blowing up toast size */
+  .Toastify__toast {
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .Toastify__toast-body {
+    font-size: 1rem !important;
+  }
+
+  .Toastify__toast-container {
+    font-size: 1rem !important;
+  }
+  .Toastify__toast-container {
+    z-index: 99999 !important;
+  }
+
 }
+
