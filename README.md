@@ -3,8 +3,8 @@
 A modern web application that allows users to upload 2D floor plans and generate photorealistic 3D room renders. This project demonstrates a fully interactive UI, reusable components, and integration with backend services.
 
 <p align="center">
-  <img src="public/Screenshot 2026-03-10 122317.png" width="45%" />
-  <img src="public/Screenshot 2026-03-10 122339.png" width="45%" />
+  <img src="public/Screenshot 2026-03-10 122317.png" alt="AI Rendered floor plan" width="45%" />
+  <img src="public/Screenshot 2026-03-10 122339.png" alt="Projects section" width="45%" />
 </p>
 
 ---
