@@ -157,7 +157,14 @@ export default function Home() {
                             defaultValue={aiRenderOptions.find(option => option.value === DEFAULT_AI_MODEL)}
                             onChange={(e) => {setAiModel(e?.value ?? DEFAULT_AI_MODEL) }}
                             menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
-                            styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
+                            styles={{
+                                menuPortal: base => ({ ...base, zIndex: 9999 }),
+                                control: base => ({ ...base, background: '#2a2828', borderColor: 'rgba(255,255,255,0.1)', color: 'white' }),
+                                menu: base => ({ ...base, background: '#2a2828', border: '1px solid rgba(255,255,255,0.1)' }),
+                                option: (base, state) => ({ ...base, background: state.isFocused ? '#a3763a' : '#2a2828', color: 'white', cursor: 'pointer' }),
+                                singleValue: base => ({ ...base, color: 'white' }),
+                                input: base => ({ ...base, color: 'white' }),
+                            }}
                             />
                         </div>
 
