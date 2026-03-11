@@ -1,6 +1,6 @@
 import type { Route } from "./+types/home";
 import Navbar from "../../Components/Navbar";
-import {ArrowRight, ArrowUpRight, Clock, Layers} from "lucide-react";
+import {ArrowDown, ArrowRight, ArrowUpRight, Clock, Layers} from "lucide-react";
 import Select from 'react-select'
 import Button from "../../Components/ui/Button";
 import Upload from "../../Components/Upload";
@@ -10,6 +10,10 @@ import {createProject, getProjects} from "../../lib/puter.action";
 import {toast} from "react-toastify";
 import {ReactCompareSlider, ReactCompareSliderImage} from "react-compare-slider";
 import {aiRenderOptions, DEFAULT_AI_MODEL} from "../../lib/constants";
+import { createPlayer } from '@videojs/react';
+import { videoFeatures } from '@videojs/react/video';
+import '@videojs/react/video/skin.css';
+import {MyPlayer} from "../../Components/ui/VideoPlayer";
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -28,6 +32,7 @@ export default function Home() {
     const [sliderPos, setSliderPos] = useState(50);
     const animFrameRef = useRef<number>(50);
     const startTimeRef = useRef<number>(50);
+    const Player = createPlayer({ features: videoFeatures });
 
     const handleUploadComplete = async (base64Image: string) => {
         try {
@@ -114,6 +119,7 @@ export default function Home() {
 
                 <h1>Turn ideas into immersive spaces effortlessly with Raumorph</h1>
 
+
                 <p className="subtitle">Raumorph is an AI-first design environment that helps you visualize, render
                     and ship architectural projects faster than ever.</p>
 
@@ -121,11 +127,19 @@ export default function Home() {
                     <a href="#upload" className="cta">
                         Start Building <ArrowRight className="icon" />
                     </a>
-
-                    <Button variant="outline" size="lg" className="demo">
-                        Watch Demo
-                    </Button>
+                    <a href="#demo">
+                        <Button variant="outline" size="lg" className="demo">
+                            Watch Demo <ArrowDown className="icon" />
+                        </Button>
+                    </a>
                 </div>
+
+                <div id="demo" className="w-2/3 mx-auto aspect-video">
+                    <MyPlayer src="https://stream.mux.com/7xz7wyqSWK02Ak9rwQkmihtu5DuoLd3ax7mX44IWVkFQ.m3u8" />
+                </div>
+
+                <br/>
+
 
 
                 <div id="upload" className="upload-shell">
