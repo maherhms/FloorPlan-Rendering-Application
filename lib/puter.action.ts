@@ -141,6 +141,8 @@ export const getProjectById = async ({ id }: { id: string }) => {
 };
 
 export const renameProjectById = async ( newName = "untitled", {project} : {project : DesignItem | null}) => {
+    const normalizedName = newName.trim() || "untitled";
+
     if (!PUTER_WORKER_URL) {
         toast.warn("Missing VITE_PUTER_WORKER_URL; skipping rename.");
         return null;
@@ -154,7 +156,7 @@ export const renameProjectById = async ( newName = "untitled", {project} : {proj
         const response = await puter.workers.exec(`${PUTER_WORKER_URL}/api/projects/save`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({project: {...project, name: newName}}),
+            body: JSON.stringify({project: {...project, name: normalizedName}}),
         });
 
         if(!response.ok){
@@ -163,8 +165,12 @@ export const renameProjectById = async ( newName = "untitled", {project} : {proj
         }
 
         const data = (await response.json()) as { project ?: DesignItem | null};
+        if (!data?.project) {
+            toast.error("Project rename did not return updated project data.");
+            return null;
+        }
 
-        toast.success(`Project renamed to ${newName}`);
+        toast.success(`Project renamed to ${project?.name}`);
 
         return data?.project ?? null;
     }catch (error){

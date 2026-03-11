@@ -149,6 +149,7 @@ const VisualizerId = () => {
                         <div className="panel-meta">
                             <p>Project</p>
                             <input value={name}
+                                   aria-label="Project name"
                                    onChange={(e) => setName(e.target.value)}
                                    onBlur={async () => { if (project && name !== project.name) {
                                            await renameProjectById(name, {project});}}}
