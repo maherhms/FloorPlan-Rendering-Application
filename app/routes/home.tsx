@@ -38,7 +38,7 @@ export default function Home() {
     const handleUploadComplete = async (base64Image: string) => {
         try {
             if(!aiModel) {
-                toast.warning("Please reload page and select an AI model");
+                toast.warn("Please reload page and select an AI model");
                 return;
             }
             if(isCreatingProjectRef.current) return;
