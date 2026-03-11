@@ -7,6 +7,12 @@ export const STORAGE_PATHS = {
     RENDERS: "FloorPlan-Rendering-Application/renders",
 } as const;
 
+export const aiRenderOptions = [
+    { value: 'black-forest-labs/flux.2-klein-9b', label: 'Flux' },
+    { value: 'google/gemini-2.5-flash-image', label: 'Gemini-2.5' },
+    { value: 'google/gemini-3.1-flash-lite-preview', label: 'Gemini-3.1' }
+]
+
 // Timing Constants (in milliseconds)
 export const SHARE_STATUS_RESET_DELAY_MS = 1500;
 export const PROGRESS_INCREMENT = 15;

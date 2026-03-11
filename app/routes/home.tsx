@@ -1,6 +1,7 @@
 import type { Route } from "./+types/home";
 import Navbar from "../../Components/Navbar";
 import {ArrowRight, ArrowUpRight, Clock, Layers} from "lucide-react";
+import Select from 'react-select'
 import Button from "../../Components/ui/Button";
 import Upload from "../../Components/Upload";
 import {useNavigate} from "react-router";
@@ -8,6 +9,7 @@ import {useEffect, useRef, useState} from "react";
 import {createProject, getProjects} from "../../lib/puter.action";
 import {toast} from "react-toastify";
 import {ReactCompareSlider, ReactCompareSliderImage} from "react-compare-slider";
+import {aiRenderOptions} from "../../lib/constants";
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -19,6 +21,7 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
     const navigate = useNavigate();
     const [projects , setProjects] = useState<DesignItem[]>([]);
+    const [aiModel, setAiModel] = useState<string | null>()
     const isCreatingProjectRef = useRef(false);
 
     //slider animation values
@@ -129,6 +132,13 @@ export default function Home() {
 
                             <h3>Upload your floor plan</h3>
                             <p>Supports JPG and PNG format up to 10MB</p>
+                            <Select
+                            options={aiRenderOptions}
+                            onChange={(e) => {
+                                setAiModel(e?.value)
+                                toast.success(`AI Model set to ${e?.value}`)
+                            }}
+                            />
                         </div>
 
                         <Upload onComplete={handleUploadComplete}/>

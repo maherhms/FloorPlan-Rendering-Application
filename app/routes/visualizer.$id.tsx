@@ -8,8 +8,8 @@ import {ReactCompareSlider, ReactCompareSliderImage} from "react-compare-slider"
 import {toast} from "react-toastify";
 
 const VisualizerId = () => {
-    const { id } = useParams();
     const navigate = useNavigate();
+    const { id } = useParams();
     const { userId } = useOutletContext<AuthContext>();
 
     const hasInitialGenerated = useRef(false);
