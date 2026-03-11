@@ -2,6 +2,7 @@ import puter from "@heyputer/puter.js";
 import {getOrCreateHostingConfig, uploadImageToHosting} from "./puter.hosting";
 import {isHostedUrl} from "./utils";
 import {PUTER_WORKER_URL} from "./constants";
+import {toast} from "react-toastify";
 
 export const signIn = async () => await puter.auth.signIn();
 
@@ -19,7 +20,7 @@ export const getCurrentUser = async () => {
 export const createProject = async ({ item , visibility = "private"}: CreateProjectParams):
     Promise<DesignItem | null | undefined> => {
     if(!PUTER_WORKER_URL){
-        console.warn("missing VITE_PUTER_WORKER_URL; skip history fetch;");
+        toast.warn("missing VITE_PUTER_WORKER_URL; skip history fetch;");
         return null;
     }
 
@@ -44,7 +45,7 @@ export const createProject = async ({ item , visibility = "private"}: CreateProj
     const resolvedSource = hostedSource?.url || (isHostedUrl(item.sourceImage) ? item.sourceImage : "");
 
     if(!resolvedSource){
-        console.warn(`Failed to host source image , skipping save.`);
+        toast.warn(`Failed to host source image , skipping save.`);
         return null;
     }
 
@@ -74,7 +75,7 @@ export const createProject = async ({ item , visibility = "private"}: CreateProj
         });
 
         if(!response.ok){
-            console.error(`Failed to save the project`, await response.text());
+            toast.error(`Failed to save the project ${await response.text()}`);
             return null;
         }
 
@@ -82,38 +83,36 @@ export const createProject = async ({ item , visibility = "private"}: CreateProj
 
         return data?.project ?? null;
     }catch(e){
-        console.log(`Failed to save the project: ${e}`);
+        toast.error(`Failed to save the project: ${e}`);
         return null;
     }
 }
 
 export const getProjects = async() => {
     if(!PUTER_WORKER_URL){
-        console.warn("missing VITE_PUTER_WORKER_URL; skip history fetch;");
+        toast.warn("missing VITE_PUTER_WORKER_URL; skip history fetch;");
         return [];
     }
     try{
         const response = await puter.workers.exec(`${PUTER_WORKER_URL}/api/projects/list`, { method : "GET"});
         if(!response.ok){
-            console.error(`Failed to fetch projects`, await response.text());
+            toast.error(`Failed to fetch projects : ${await response.text()}`);
             return [];
         }
 
         const data = (await response.json()) as {projects? : DesignItem[] | null};
         return Array.isArray(data?.projects) ? data.projects : [];
     }catch (e){
-        console.warn(`Failed to fetch projects: ${e}`);
+        toast.warn(`Failed to fetch projects: ${e}`);
         return [];
     }
 }
 
 export const getProjectById = async ({ id }: { id: string }) => {
     if (!PUTER_WORKER_URL) {
-        console.warn("Missing VITE_PUTER_WORKER_URL; skipping project fetch.");
+        toast.warn("Missing VITE_PUTER_WORKER_URL; skipping project fetch.");
         return null;
     }
-
-    console.log("Fetching project with ID:", id);
 
     try {
         const response = await puter.workers.exec(
@@ -121,10 +120,10 @@ export const getProjectById = async ({ id }: { id: string }) => {
             { method: "GET" },
         );
 
-        console.log("Fetch project response:", response);
+        toast.info(`Fetch project response: ${response}`);
 
         if (!response.ok) {
-            console.error("Failed to fetch project:", await response.text());
+            toast.error(`Failed to fetch project: ${await response.text()}`);
             return null;
         }
 
@@ -132,11 +131,50 @@ export const getProjectById = async ({ id }: { id: string }) => {
             project?: DesignItem | null;
         };
 
-        console.log("Fetched project data:", data);
+        toast.info(`Fetched project data: ${data}`);
 
         return data?.project ?? null;
     } catch (error) {
-        console.error("Failed to fetch project:", error);
+        toast.error(`Failed to fetch project:${error}`);
         return null;
     }
 };
+
+export const renameProjectById = async ( newName = "untitled", {project} : {project : DesignItem | null}) => {
+    const normalizedName = newName.trim() || "untitled";
+
+    if (!PUTER_WORKER_URL) {
+        toast.warn("Missing VITE_PUTER_WORKER_URL; skipping rename.");
+        return null;
+    }
+    if (!project) {
+        toast.warn("No project to rename.");
+        return null;
+    }
+
+    try {
+        const response = await puter.workers.exec(`${PUTER_WORKER_URL}/api/projects/save`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({project: {...project, name: normalizedName}}),
+        });
+
+        if(!response.ok){
+            toast.error(`Failed to save the project ${await response.text()}`);
+            return null;
+        }
+
+        const data = (await response.json()) as { project ?: DesignItem | null};
+        if (!data?.project) {
+            toast.error("Project rename did not return updated project data.");
+            return null;
+        }
+
+        toast.success(`Project renamed to ${project?.name}`);
+
+        return data?.project ?? null;
+    }catch (error){
+        toast.error(`Failed to rename the project: ${error}`);
+        return null;
+    }
+}

@@ -1,6 +1,7 @@
 import {Box} from "lucide-react";
 import Button from "./ui/Button";
 import {useOutletContext} from "react-router";
+import {toast} from "react-toastify";
 
 const Navbar = () => {
     const { isSignedIn, userName, signIn, signOut} = useOutletContext<AuthContext>()
@@ -10,7 +11,7 @@ const Navbar = () => {
             try {
                 await signOut();
             }catch(e){
-                console.error(`Puter sign out failed :${e}`);
+                toast.error(`Puter sign out failed :${e}`);
             }
             return;
         }
@@ -18,7 +19,7 @@ const Navbar = () => {
         try {
             await signIn();
         }catch(e){
-            console.error(`Puter sign in failed :${e}`);
+            toast.error(`Puter sign in failed :${e}`);
         }
     };
 

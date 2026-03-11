@@ -9,12 +9,14 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import "react-toastify/dist/ReactToastify.css";
 import {useEffect, useState} from "react";
 import {
   getCurrentUser,
   signIn as puterSignIn,
   signOut as puterSignOut,
 } from "../lib/puter.action";
+import {ToastContainer} from "react-toastify";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -87,11 +89,14 @@ export default function App() {
   }
 
   return(
-    <main className="min-h-screen bg-background text-foreground relative z-10">
-      <Outlet
-      context={{...authState, refreshAuth,signIn,signOut}}
-      />;
-    </main>
+      <>
+        <ToastContainer position="top-right"/>
+        <main className="min-h-screen bg-background text-foreground relative">
+          <Outlet
+              context={{...authState, refreshAuth,signIn,signOut}}
+          />
+        </main>
+      </>
   )
 }
 

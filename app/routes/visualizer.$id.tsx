@@ -1,19 +1,37 @@
-import {useNavigate, useOutletContext, useParams} from "react-router";
+import {useLocation, useNavigate, useOutletContext, useParams} from "react-router";
 import {useEffect, useRef, useState} from "react";
 import {generate3DView} from "../../lib/ai.action";
 import {Box, Download, RefreshCcw, Share2, X} from "lucide-react";
 import Button from "../../Components/ui/Button";
-import {createProject, getProjectById} from "../../lib/puter.action";
+import {createProject, getProjectById, renameProjectById} from "../../lib/puter.action";
 import {ReactCompareSlider, ReactCompareSliderImage} from "react-compare-slider";
+import {toast} from "react-toastify";
+import {DEFAULT_AI_MODEL} from "../../lib/constants";
+
+type VisualizerState = {
+    initialImage: string;
+    renderedImage: string | null;
+    name: string;
+    aiModel: string | null;
+};
 
 const VisualizerId = () => {
-    const { id } = useParams();
     const navigate = useNavigate();
+    const { id } = useParams();
     const { userId } = useOutletContext<AuthContext>();
+
+    const location = useLocation() as {
+        state: VisualizerState;
+    };
+
+    const [aiModel] = useState(
+        location.state?.aiModel ?? DEFAULT_AI_MODEL
+    );
 
     const hasInitialGenerated = useRef(false);
 
     const [project, setProject] = useState<DesignItem | null>(null);
+    const [name, setName] = useState<string>("untitled");
     const [isProjectLoading, setIsProjectLoading] = useState(true);
     const [isProcessing, setIsProcessing] = useState(false);
     const [currentImage, setCurrentImage] = useState<string | null>(null);
@@ -35,7 +53,7 @@ const VisualizerId = () => {
 
         try {
             setIsProcessing(true);
-            const result = await generate3DView({sourceImage : item.sourceImage});
+            const result = await generate3DView({ sourceImage: item.sourceImage, aiModel });
 
             if(result.renderedImage){
                 setCurrentImage(result.renderedImage);
@@ -57,7 +75,7 @@ const VisualizerId = () => {
             }
         }
         catch (e) {
-            console.error("Failed to generate image", e);
+            toast.error(`Failed to generate image`);
         }
         finally {
             setIsProcessing(false);
@@ -110,6 +128,10 @@ const VisualizerId = () => {
         void runGeneration(project);
     }, [project, isProjectLoading]);
 
+    useEffect(() => {
+        if(project?.name) setName(project.name);
+    }, [project?.name]);
+
     return (
         <div className="visualizer">
             <nav className="topbar">
@@ -126,7 +148,16 @@ const VisualizerId = () => {
                     <div className="panel-header">
                         <div className="panel-meta">
                             <p>Project</p>
-                            <h2>{project?.name || `Residence ${id}`}</h2>
+                            <input value={name}
+                                   aria-label="Project name"
+                                   onChange={(e) => setName(e.target.value)}
+                                   onBlur={async () => { if (project && name !== project.name) {
+                                           await renameProjectById(name, {project});}}}
+                                   maxLength={20}
+                                   className="input-name"
+                                   placeholder="Enter project name"
+                                   disabled={isProcessing}
+                            />
                             <p className="note">Created by you</p>
                         </div>
 
@@ -177,12 +208,9 @@ const VisualizerId = () => {
                             <ReactCompareSlider
                                 defaultValue={50}
                                 style={{ width: '100%', height: 'auto' }}
-                                itemOne={
-                                    <ReactCompareSliderImage src={project?.sourceImage} alt="before" className="compare-img"/>
-                                }
-                                itemTwo={
-                                    <ReactCompareSliderImage src={currentImage || project?.renderedImage || ""} alt="after" className="compare-img"/>
-                                } />
+                                itemOne={<ReactCompareSliderImage src={project?.sourceImage} alt="before" className="compare-img"/>}
+                                itemTwo={<ReactCompareSliderImage src={currentImage || project?.renderedImage || ""} alt="after" className="compare-img"/>}
+                            />
                         ) : (
                             <div className="compare-fallback">
                                 {project?.sourceImage && (

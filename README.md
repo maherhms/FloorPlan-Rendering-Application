@@ -3,44 +3,10 @@
 A modern web application that allows users to upload 2D floor plans and generate photorealistic 3D room renders. This project demonstrates a fully interactive UI, reusable components, and integration with backend services.
 
 <p align="center">
-  <img src="public/Screenshot 2026-03-10 122317.png" alt="AI Rendered floor plan" width="45%" />
-  <img src="public/Screenshot 2026-03-10 122339.png" alt="Projects section" width="45%" />
+  <img src="public/Screenshot 2026-03-11 143441.png" alt="Projects section" width="45%" />
+  <img src="public/Screenshot 2026-03-11 143453.png" alt="Projects section" width="45%" />
+  <img src="public/Screenshot 2026-03-11 143426.png" alt="AI Rendered floor plan" width="45%" />
 </p>
-
----
-## Update log 0.8
-### New Features
-WebP file format now supported for uploads
-Added image comparison panel with interactive slider to visually compare original and rendered images side-by-side
-Export rendered images as PNG files for download
-
-## Update log 0.7.3
-### New Features
-Image upload and hosting capability
-Saved projects support
-Visualizer state routing for seamless navigation
-Export and share functionality for rendered images
-### Improvements
-Enhanced visualizer UI with project metadata display and navigation controls
-Added visual feedback during image generation with processing overlay
-Updated installation instructions and documentation with new Functionalities section
-
-## Update log 0.6.3
-### New Features
-Image hosting and upload with automatic hosting setup, multi-format handling, and PNG rendering for certain images.
-Save projects from uploads; Home displays saved projects with dynamic timestamps and thumbnails.
-Visualizer accepts routed project state and shows project title and source image.
-Expanded public types/interfaces for components and hosting APIs.
-### Updates
-Added Key "Functionalities" section to README.
-Package version updates for routing libraries.
-
-## Update log 0.5.6
-### New Features
-Drag-and-drop and click-to-upload interface for floor plan images (JPG/PNG, 10 MB) with upload progress and completion flow
-New visualizer view to process/display uploaded floor plans via a navigation-based upload flow
-### Updates
-Added application-wide constants for timing, UI, and rendering settings
 
 ---
 
@@ -138,6 +104,52 @@ npm run dev
 # or
 yarn dev
 ```
+---
+
+## Update log 0.9
+### New Features
+Editable project names in the visualizer.
+Before/after compare sliders for project previews.
+Embedded demo/video player and “Watch Demo” hero action.
+AI model selection and rendering presets.
+### Improvements
+On-screen toast notifications with top-right container for status/errors.
+Global dark theme and UI restyling, including toast visuals.
+README screenshots updated.
+## Update log 0.8
+### New Features
+WebP file format now supported for uploads
+Added image comparison panel with interactive slider to visually compare original and rendered images side-by-side
+Export rendered images as PNG files for download
+
+## Update log 0.7.3
+### New Features
+Image upload and hosting capability
+Saved projects support
+Visualizer state routing for seamless navigation
+Export and share functionality for rendered images
+### Improvements
+Enhanced visualizer UI with project metadata display and navigation controls
+Added visual feedback during image generation with processing overlay
+Updated installation instructions and documentation with new Functionalities section
+
+## Update log 0.6.3
+### New Features
+Image hosting and upload with automatic hosting setup, multi-format handling, and PNG rendering for certain images.
+Save projects from uploads; Home displays saved projects with dynamic timestamps and thumbnails.
+Visualizer accepts routed project state and shows project title and source image.
+Expanded public types/interfaces for components and hosting APIs.
+### Updates
+Added Key "Functionalities" section to README.
+Package version updates for routing libraries.
+
+## Update log 0.5.6
+### New Features
+Drag-and-drop and click-to-upload interface for floor plan images (JPG/PNG, 10 MB) with upload progress and completion flow
+New visualizer view to process/display uploaded floor plans via a navigation-based upload flow
+### Updates
+Added application-wide constants for timing, UI, and rendering settings
+
 ---
 
 ## 📌 References

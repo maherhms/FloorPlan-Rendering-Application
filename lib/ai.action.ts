@@ -1,5 +1,6 @@
 import puter from "@heyputer/puter.js";
-import {RAUMORPH_RENDER_PROMPT} from "./constants";
+import {DEFAULT_AI_MODEL, RAUMORPH_RENDER_PROMPT} from "./constants";
+import {toast} from "react-toastify";
 
 /**
  * Fetches a resource from a URL and converts it into a Data URL.
@@ -39,7 +40,7 @@ export async function fetchAsDataUrl(url: string): Promise<string> {
     });
 }
 
-export const generate3DView = async ({sourceImage} : Generate3DViewParams) => {
+export const generate3DView = async ({sourceImage , aiModel = DEFAULT_AI_MODEL} : Generate3DViewParams) => {
     const dataUrl = sourceImage.startsWith("data:") ? sourceImage : await fetchAsDataUrl(sourceImage);
 
     const base64Data = dataUrl.split(',')[1];
@@ -49,9 +50,10 @@ export const generate3DView = async ({sourceImage} : Generate3DViewParams) => {
         throw new Error("Invalid source image payload");
     }
 
+    toast.info(`Image being generated using : ${aiModel}`)
+
     const response = await puter.ai.txt2img(RAUMORPH_RENDER_PROMPT,{
-        provider:"gemini",
-        model:"gemini-2.5-flash-image-preview",
+        model: aiModel,
         input_image: base64Data,
         input_image_mime_type: mimeType,
         ratio : {w: 1024, h: 1024},
