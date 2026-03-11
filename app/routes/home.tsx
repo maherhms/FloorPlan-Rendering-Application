@@ -30,9 +30,10 @@ export default function Home() {
 
     //slider animation values
     const [sliderPos, setSliderPos] = useState(50);
-    const animFrameRef = useRef<number>(50);
-    const startTimeRef = useRef<number>(50);
-    const Player = createPlayer({ features: videoFeatures });
+    //slider animation values
+    const [sliderPos, setSliderPos] = useState(50);
+    const animFrameRef = useRef<number>(0);
+    const startTimeRef = useRef<number>(0);
 
     const handleUploadComplete = async (base64Image: string) => {
         try {
