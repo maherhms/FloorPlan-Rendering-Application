@@ -5,7 +5,7 @@
   --color-foreground: #1a1a1a;
   --color-surface: #ffffff;
   --color-surface-highlight: #f3f4f6;
-  --color-primary: #f97316;
+  --color-primary: #3a90a3;
   --color-secondary: #3b82f6;
   --color-accent: #8b5cf6;
   --font-serif: "Instrument Serif", serif;
@@ -59,7 +59,7 @@
     @apply inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:cursor-not-allowed;
 
     &.btn--primary {
-      @apply bg-primary text-white hover:bg-[#EA580C] shadow-sm;
+      @apply bg-primary text-white hover:bg-[#3b82f6] shadow-sm;
     }
 
     &.btn--secondary {
@@ -149,7 +149,7 @@
         }
 
         .cta {
-          @apply inline-flex items-center justify-center rounded-md font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:cursor-not-allowed px-3 py-1.5 text-xs uppercase tracking-wide bg-primary text-white hover:bg-[#EA580C] shadow-sm;
+          @apply inline-flex items-center justify-center rounded-md font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:cursor-not-allowed px-3 py-1.5 text-xs uppercase tracking-wide bg-primary text-white hover:bg-[#3b82f6] shadow-sm;
         }
       }
     }
@@ -162,7 +162,7 @@
       @apply bg-white rounded-xl shadow-2xl max-w-md w-full p-6 text-center border border-zinc-200;
 
       .icon {
-        @apply w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4;
+        @apply w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4;
 
         .alert {
           @apply text-primary w-6 h-6;
@@ -181,7 +181,7 @@
         @apply flex flex-col space-y-3;
 
         .confirm {
-          @apply bg-primary hover:bg-orange-600 text-white;
+          @apply bg-primary hover:bg-blue-900 text-white;
         }
 
         .cancel {
@@ -198,10 +198,10 @@
       @apply relative h-48 rounded-xl border-2 border-dashed transition-all duration-300 flex flex-col items-center justify-center cursor-pointer bg-zinc-50 border-zinc-200 hover:border-zinc-300 hover:bg-zinc-100;
 
       &.is-dragging {
-        @apply border-primary bg-orange-50;
+        @apply border-primary bg-blue-50;
 
         .drop-icon {
-          @apply bg-orange-100 text-primary;
+          @apply bg-blue-100 text-primary;
         }
       }
 
@@ -322,7 +322,7 @@
           @apply flex flex-wrap items-center gap-3;
 
           .export {
-            @apply bg-primary text-white hover:bg-orange-600 h-9 border-none shadow-sm;
+            @apply bg-primary text-white hover:bg-blue-600 h-9 border-none shadow-sm;
           }
 
           .share {
@@ -433,7 +433,7 @@
         @apply flex flex-col sm:flex-row gap-4 justify-center mb-16;
 
         .cta {
-          @apply inline-flex items-center justify-center rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background px-8 py-3 text-sm uppercase tracking-wide font-bold bg-primary text-white hover:bg-[#ea580c] shadow-md;
+          @apply inline-flex items-center justify-center rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background px-8 py-3 text-sm uppercase tracking-wide font-bold bg-primary text-white hover:bg-[#3b82f6] shadow-md;
 
           .icon {
             @apply ml-2 w-4 h-4;
@@ -465,10 +465,10 @@
             @apply text-center mb-6;
 
             .upload-icon {
-              @apply w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3;
+              @apply w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3;
 
               .icon {
-                @apply text-orange-500 w-6 h-6;
+                @apply text-blue-500 w-6 h-6;
               }
             }
 

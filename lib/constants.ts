@@ -1,4 +1,5 @@
 export const PUTER_WORKER_URL = import.meta.env.VITE_PUTER_WORKER_URL || "";
+export const DEFAULT_AI_MODEL = "black-forest-labs/flux.2-klein-9b";
 
 // Storage Paths
 export const STORAGE_PATHS = {

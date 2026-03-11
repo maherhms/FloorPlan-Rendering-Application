@@ -9,7 +9,7 @@ import {useEffect, useRef, useState} from "react";
 import {createProject, getProjects} from "../../lib/puter.action";
 import {toast} from "react-toastify";
 import {ReactCompareSlider, ReactCompareSliderImage} from "react-compare-slider";
-import {aiRenderOptions} from "../../lib/constants";
+import {aiRenderOptions, DEFAULT_AI_MODEL} from "../../lib/constants";
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -21,7 +21,7 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
     const navigate = useNavigate();
     const [projects , setProjects] = useState<DesignItem[]>([]);
-    const [aiModel, setAiModel] = useState<string | null>()
+    const [aiModel, setAiModel] = useState(DEFAULT_AI_MODEL)
     const isCreatingProjectRef = useRef(false);
 
     //slider animation values
@@ -31,6 +31,10 @@ export default function Home() {
 
     const handleUploadComplete = async (base64Image: string) => {
         try {
+            if(!aiModel) {
+                toast.warning("Please reload page and select an AI model");
+                return;
+            }
             if(isCreatingProjectRef.current) return;
             isCreatingProjectRef.current = true;
             const newId = Date.now().toString();
@@ -60,7 +64,8 @@ export default function Home() {
                 state: {
                     initialImage: saved.sourceImage,
                     renderedImage: saved.renderedImage || null,
-                    name
+                    name,
+                    aiModel
                 }
             });
 
@@ -104,7 +109,7 @@ export default function Home() {
                         <div className="pulse"></div>
                     </div>
 
-                    <p>Introducing Raumorph 1.0</p>
+                    <p>Introducing Raumorph 2.0</p>
                 </div>
 
                 <h1>Turn ideas into immersive spaces effortlessly with Raumorph</h1>
@@ -122,6 +127,7 @@ export default function Home() {
                     </Button>
                 </div>
 
+
                 <div id="upload" className="upload-shell">
                     <div className="grid-overlay"/>
                     <div className="upload-card">
@@ -134,10 +140,10 @@ export default function Home() {
                             <p>Supports JPG and PNG format up to 10MB</p>
                             <Select
                             options={aiRenderOptions}
-                            onChange={(e) => {
-                                setAiModel(e?.value)
-                                toast.success(`AI Model set to ${e?.value}`)
-                            }}
+                            defaultValue={aiRenderOptions.find(option => option.value === DEFAULT_AI_MODEL)}
+                            onChange={(e) => {setAiModel(e?.value ?? DEFAULT_AI_MODEL) }}
+                            menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
+                            styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
                             />
                         </div>
 

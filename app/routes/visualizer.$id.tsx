@@ -1,4 +1,4 @@
-import {useNavigate, useOutletContext, useParams} from "react-router";
+import {useLocation, useNavigate, useOutletContext, useParams} from "react-router";
 import {useEffect, useRef, useState} from "react";
 import {generate3DView} from "../../lib/ai.action";
 import {Box, Download, RefreshCcw, Share2, X} from "lucide-react";
@@ -6,11 +6,27 @@ import Button from "../../Components/ui/Button";
 import {createProject, getProjectById, renameProjectById} from "../../lib/puter.action";
 import {ReactCompareSlider, ReactCompareSliderImage} from "react-compare-slider";
 import {toast} from "react-toastify";
+import {DEFAULT_AI_MODEL} from "../../lib/constants";
+
+type VisualizerState = {
+    initialImage: string;
+    renderedImage: string | null;
+    name: string;
+    aiModel: string | null;
+};
 
 const VisualizerId = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const { userId } = useOutletContext<AuthContext>();
+
+    const location = useLocation() as {
+        state: VisualizerState;
+    };
+
+    const [aiModel] = useState(
+        location.state?.aiModel ?? DEFAULT_AI_MODEL
+    );
 
     const hasInitialGenerated = useRef(false);
 
@@ -37,7 +53,7 @@ const VisualizerId = () => {
 
         try {
             setIsProcessing(true);
-            const result = await generate3DView({sourceImage : item.sourceImage});
+            const result = await generate3DView({ sourceImage: item.sourceImage, aiModel });
 
             if(result.renderedImage){
                 setCurrentImage(result.renderedImage);
