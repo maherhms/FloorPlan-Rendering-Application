@@ -30,8 +30,6 @@ export default function Home() {
 
     //slider animation values
     const [sliderPos, setSliderPos] = useState(50);
-    //slider animation values
-    const [sliderPos, setSliderPos] = useState(50);
     const animFrameRef = useRef<number>(0);
     const startTimeRef = useRef<number>(0);
 
