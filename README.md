@@ -106,6 +106,12 @@ yarn dev
 ```
 ---
 ## Running with Docker
+1. Configure environment variables:
+   Copy `.env.local.example` to `.env.local` and fill in the required values:
+```bash
+cp .env.local.example .env.local
+```
+1. deploy and run the docker image:
 ```dockerfile
 docker build -t floorplan .
 docker run -p 3000:3000 --env-file .env.local floorplan

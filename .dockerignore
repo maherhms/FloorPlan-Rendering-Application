@@ -3,5 +3,4 @@ build
 node_modules
 README.md
 .env
-.env.local
 .git
