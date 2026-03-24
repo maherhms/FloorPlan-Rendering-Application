@@ -105,6 +105,12 @@ npm run dev
 yarn dev
 ```
 ---
+## Running with Docker
+```dockerfile
+docker build -t floorplan .
+docker run -p 3000:3000 --env-file .env.local floorplan
+```
+---
 
 ## Update log 0.9
 ### New Features
