@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 
+import { Analytics } from '@vercel/analytics/next';
 import type { Route } from "./+types/root";
 import "./app.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -96,6 +97,7 @@ export default function App() {
               context={{...authState, refreshAuth,signIn,signOut}}
           />
         </main>
+        <Analytics />
       </>
   )
 }
