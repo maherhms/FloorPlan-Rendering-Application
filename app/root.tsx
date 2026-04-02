@@ -17,6 +17,7 @@ import {
   signOut as puterSignOut,
 } from "../lib/puter.action";
 import {ToastContainer} from "react-toastify";
+import {Analytics} from "@vercel/analytics/react";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -96,6 +97,7 @@ export default function App() {
               context={{...authState, refreshAuth,signIn,signOut}}
           />
         </main>
+        <Analytics />
       </>
   )
 }
