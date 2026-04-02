@@ -7,7 +7,6 @@ import {
   ScrollRestoration,
 } from "react-router";
 
-import { Analytics } from '@vercel/analytics/next';
 import type { Route } from "./+types/root";
 import "./app.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,6 +17,7 @@ import {
   signOut as puterSignOut,
 } from "../lib/puter.action";
 import {ToastContainer} from "react-toastify";
+import {Analytics} from "@vercel/analytics/react";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
