@@ -17,7 +17,7 @@ import {MyPlayer} from "../../Components/ui/VideoPlayer";
 
 export function meta({}: Route.MetaArgs) {
     return [
-        { title: "New React Router App" },
+        { title: "Raumorph", content: "Welcome to React Router!" },
         { name: "description", content: "Welcome to React Router!" },
     ];
 }
